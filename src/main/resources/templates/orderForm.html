@@ -46,6 +46,12 @@
 
         <label th:for="ccNumber">Credit Card #: </label>
         <input type="text" th:field="*{ccNumber}"/>
+        <!-- 타임리프는 fields와 th:errors속성을 통해 Errors객체를 사용함.
+        #fields.hasErrors() 메소드를 사용해 해당 필드에 에러가 있는지 검사함.
+         th:errors 속성은 해당 필드를 참조해서 에러가 있다면 사전 지정된 message를 검사 에러 메시지로 교체함-->
+        <span class="validationError"
+              th:if="${#fields.hasErrors('ccNumber')}"
+              th:errors="*{ccNumber}">CC Num Error</span>
         <br/>
 
         <label th:for="ccExpiration">Expiration: </label>
