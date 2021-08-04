@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 @Data
 public class Order {
@@ -34,5 +35,8 @@ public class Order {
     @Digits(integer=3, fraction=0, message="Invalid CVV")   //@Digits으로 입력값이 지정된 정수와 소수자리수보다 적을경우 통과 가능
     private String ccCVV;
 
+    private Long id;
+
+    private Date placedAt;
 
 }
