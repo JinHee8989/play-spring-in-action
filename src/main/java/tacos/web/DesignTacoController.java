@@ -2,13 +2,12 @@ package tacos.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,8 +16,10 @@ import java.util.stream.Collectors;
 
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
+import tacos.Order;
 import tacos.Taco;
 import tacos.data.IngredientRepository;
+import tacos.data.TacoRepository;
 
 import javax.validation.Valid;
 
@@ -26,9 +27,27 @@ import javax.validation.Valid;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/design")
+@SessionAttributes("order") //주문은 다수의 http요청에 걸쳐 존재해야하기때문에 세션에서 보존
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepo;
+    private TacoRepository tacoRepo;
+
+    @Autowired
+    public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository tacoRepo){
+        this.ingredientRepo = ingredientRepo;
+        this.tacoRepo = tacoRepo;
+    }
+
+    @ModelAttribute(name="order")
+    public Order order(){
+        return new Order();
+    }
+
+    @ModelAttribute(name="taco")
+    public Taco taco(){
+        return new Taco();
+    }
 
     //주문 작성 페이지로 이동
     @GetMapping
@@ -64,11 +83,17 @@ public class DesignTacoController {
 
     //주문서 제출
     @PostMapping
-    public String processDesign(@Valid Taco design, Errors errors){ //@Valid애노테이션으로 Taco객체의 유효성을 검증하라고 스프링 MVC에 알려줌,
+    public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order){ //@Valid애노테이션으로 Taco객체의 유효성을 검증하라고 스프링 MVC에 알려줌,
                                                                     //유효성검증중에 에러가 발생하면 Errors객체에 저장되어 processDesign()으로 전달됨.
+                                                                    //@ModelAttribute Order order 해준이유는 매개변수의 값이 모델로부터 전달받아야하고 스프링MVC가 이 매개변수에 요청 매개변수를 바인딩히지 않도록 하기위해
+
         if(errors.hasErrors()){     //에러가 있는경우 "design"뷰로 이동
             return "design";
         }
+
+        Taco saved = tacoRepo.save(design);
+        order.addDesign(saved);
+
         //타코 디자인(선택된 식자재 내역)을 저장
         return "redirect:/orders/current";
     }
