@@ -63,6 +63,7 @@ public class JdbcOrderRepository implements OrderRepository {
         long orderId = orderInserter.executeAndReturnKey(values)
                 .longValue();
 
+
         return orderId;
     }
 }
