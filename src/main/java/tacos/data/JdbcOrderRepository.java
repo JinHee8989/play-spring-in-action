@@ -47,6 +47,18 @@ public class JdbcOrderRepository implements OrderRepository {
         return order;
     }
 
+    private long saveOrderDetails(Order order){
+        @SuppressWarnings("unchecked")      //자바 5.0부터 등장한 어노테이션으로 컴파일 시 무점검 경고를 억제해주는 어노테이션
+                Map<String,Object> values =
+                objectMapper.convertValue(order, Map.class);    //objectMapper로 order를 Map으로 변환
+        values.put("placedAt",order.getPlacedAt());
+
+        long orderId = orderInserter.executeAndReturnKey(values)
+                .longValue();
+
+        return orderId;
+    }
+
     private void saveTacoToOrder(Taco taco, long orderId) {
         Map<String, Object> values = new HashMap<>();
         values.put("tacoOrder", orderId);
@@ -54,20 +66,6 @@ public class JdbcOrderRepository implements OrderRepository {
         orderTacoInserter.execute(values);
     }
 
-    private long saveOrderDetails(Order order) {
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> values = objectMapper.convertValue(order, Map.class);
-        values.put("placeAt", order.getPlacedAt());
-
-
-        long orderId = orderInserter.executeAndReturnKey(values)
-                .longValue();
-
-
-
-        return orderId;
-    }
 }
 
 
