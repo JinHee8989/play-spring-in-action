@@ -3,15 +3,21 @@ package tacos;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class Order {
+@Entity
+@Table(name="Taco_Order")
+public class Order implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @NotBlank(message="Name is required")
     private String deliveryName;
@@ -37,13 +43,21 @@ public class Order {
     @Digits(integer=3, fraction=0, message="Invalid CVV")   //@Digits으로 입력값이 지정된 정수와 소수자리수보다 적을경우 통과 가능
     private String ccCVV;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Date placedAt;
 
+    @ManyToMany(targetEntity = Taco.class)
     private List<Taco> tacos = new ArrayList<>();
 
     public void addDesign(Taco design) {
         this.tacos.add(design);
+    }
+
+    @PrePersist
+    void placedAt(){
+        this.placedAt=new Date();
     }
 }
