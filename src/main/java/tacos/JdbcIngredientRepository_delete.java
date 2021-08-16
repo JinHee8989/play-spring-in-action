@@ -9,12 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository //@Component에서 특화된 액세스관련 스테레오타입 애노테이션
-public class JdbcIngredientRepository implements IngredientRepository {
+public class JdbcIngredientRepository_delete implements IngredientRepository {
 
     private JdbcTemplate jdbc;
 
     @Autowired
-    public JdbcIngredientRepository(JdbcTemplate jdbc){
+    public JdbcIngredientRepository_delete(JdbcTemplate jdbc){
         this.jdbc = jdbc;
     }
 

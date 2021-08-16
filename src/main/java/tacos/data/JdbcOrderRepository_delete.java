@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class JdbcOrderRepository implements OrderRepository {
+public class JdbcOrderRepository_delete implements OrderRepository {
 
     private SimpleJdbcInsert orderInserter;
     private SimpleJdbcInsert orderTacoInserter;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public JdbcOrderRepository(JdbcTemplate jdbc) {
+    public JdbcOrderRepository_delete(JdbcTemplate jdbc) {
         this.orderInserter = new SimpleJdbcInsert(jdbc)
                 .withTableName("Taco_Order")
                 .usingGeneratedKeyColumns("id");

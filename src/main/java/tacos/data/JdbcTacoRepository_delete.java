@@ -15,11 +15,11 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Repository
-public class JdbcTacoRepository implements TacoRepository{
+public class JdbcTacoRepository_delete implements TacoRepository{
 
     private JdbcTemplate jdbc;
 
-    public JdbcTacoRepository(JdbcTemplate jdbc){
+    public JdbcTacoRepository_delete(JdbcTemplate jdbc){
         this.jdbc = jdbc;
     }
 
