@@ -30,13 +30,23 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 
     @Override   //HTTP보안을 구성하는 메소드
     protected void configure(HttpSecurity http) throws Exception {
+        // 1. 요청 경로가 보안 처리되는 방법을 정의하는 구성 메서드로 정의
+//        http.authorizeRequests()
+//                .antMatchers("/design","/orders")
+//                .hasRole("ROLE_USER")
+//                .antMatchers("/","/**").permitAll();
+
+        // 2. 스프링 표현식을 사용한 인증 규칙 정의
         http.authorizeRequests()
                 .antMatchers("/design","/orders")
-                    .access("hasRole('ROLE_USER')")
-                .antMatchers("/","/**")
-                    .access("permitAll()")
-                .and()
-                     .httpBasic();
+                .access("hasRole('ROLE_USER')")
+                .antMatchers("/","/**").permitAll();
+
+        // 예시 - 화요일의 타코생성은 ROLE_USER권한을 갖는 사용자에게만 허용하고 싶다면
+//        http.authorizeRequests()
+//                .antMatchers("/design","/orders")
+//                .access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) == T(java.util.Calendar).TUESDAY")
+//                .antMatchers("/","/**").permitAll();
     }
 
     @Override   //사용자 인증정보를 구성하는 메소드
