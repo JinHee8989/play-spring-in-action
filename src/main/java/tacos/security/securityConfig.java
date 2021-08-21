@@ -40,7 +40,11 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/design","/orders")
                 .access("hasRole('ROLE_USER')")
-                .antMatchers("/","/**").permitAll();
+                .antMatchers("/","/**").permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")   //커스텀 로그인 페이지가 있는 경로를 스프링시큐리티에 알려줌
+                .defaultSuccessUrl("/design");  //로그인 성공시 이동할 페이지 지정(지정하지 않는 경우 루트 경로로 이동함)
 
         // 예시 - 화요일의 타코생성은 ROLE_USER권한을 갖는 사용자에게만 허용하고 싶다면
 //        http.authorizeRequests()

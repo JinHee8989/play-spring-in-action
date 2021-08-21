@@ -11,5 +11,6 @@ public class WebConfig implements WebMvcConfigurer {    //사용자 입력을 �
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {   //이 메소드로 HomeController의 역할을 대신할 수 있음
         registry.addViewController("/").setViewName("home");
+        registry.addViewController("/login");
     }
 }
