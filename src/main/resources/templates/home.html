@@ -11,6 +11,6 @@
     <form method="POST" th:action="@{/logout}" id="logoutForm">
         <input type="submit" value="Logout"/>
     </form>
-    <a href="@{/design}" id="design">Design a taco</a>
+    <a th:href="@{/design}" id="design">Design a taco</a>
 </body>
 </html>
