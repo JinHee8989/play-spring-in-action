@@ -49,6 +49,9 @@ public class Order implements Serializable {
 
     private Date placedAt;
 
+    @ManyToOne      //한 명의 사용자는 여러 주문을 가질 수 있도록 셋팅
+    private User user;
+
     @ManyToMany(targetEntity = Taco.class)
     private List<Taco> tacos = new ArrayList<>();
 
