@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class securityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     DataSource dataSource;
