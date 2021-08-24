@@ -90,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .passwordAttribute("userPasscode"); //비밀번호 속성의 이름 지정
 ////                .contextSource().url("ldap://tacocloud.com:389/dataSourcec=tacocloud,dc=com"); //ldap서버의 위치를 지정
         //4.사용자 인증의 커스터마이징
+
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());
 
