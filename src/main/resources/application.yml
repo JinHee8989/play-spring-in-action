@@ -1,5 +1,9 @@
 server:
   port: 9090
+  ssl:    # 내장서버 구성할때
+    key-store: file://path/to/mykeys.jks
+    key-store-password: letmein
+    key-password: letmein
 
 spring:
   datasource:
@@ -16,4 +20,12 @@ spring:
       - ingredient.sql
     jndi-name: java:/comp/env/jdbc/tacoCloudDS  # 명시적인 데이터 소스 구성 대신 JNDI에 구성하고싶을때 설정(설정하면 다른 데이터 소스 구성 속성은 무시됨)
 
-
+##### 로깅 구성
+logging:
+  file: TacoCloud.log
+    path: /var/logs
+  level:
+    root: warn
+    org:
+      springframework:
+        security: DEBUG
