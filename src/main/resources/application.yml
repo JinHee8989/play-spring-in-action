@@ -20,6 +20,7 @@ spring:
       - ingredient.sql
     jndi-name: java:/comp/env/jdbc/tacoCloudDS  # 명시적인 데이터 소스 구성 대신 JNDI에 구성하고싶을때 설정(설정하면 다른 데이터 소스 구성 속성은 무시됨)
 
+
 ##### 로깅 구성
 logging:
   file: TacoCloud.log
