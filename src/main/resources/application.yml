@@ -22,8 +22,6 @@ spring:
 
 
 
-
-
 ##### ·Î±ë ±¸¼º
 logging:
   file: TacoCloud.log
