@@ -1,6 +1,9 @@
 package tacos.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +20,26 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
+//@ConfigurationProperties(prefix="taco.orders") //이 애노테이션에 지정된 접두어는 taco.orders. pageSize 구성속성값을 변경하려면 taco.orders.pageSize라는 이름을 사용함
 public class OrderController {
 
     private OrderRepository orderRepo;
+    private OrderProps props; //이렇게 구성속성 홀더를 정의하면 여러 빈에 공통적인 구성속성을 쉽게 공유할 수 있음
 
-    public OrderController(OrderRepository orderRepo){
+    public OrderController(OrderRepository orderRepo, OrderProps orderProps){
+
         this.orderRepo = orderRepo;
+        this.props = orderProps;
     }
+
+//    private int pageSize = 20;
+//    public void setPageSize(int pageSize){
+//        this.pageSize = pageSize;
+//    }
+
+
+
+
 
     @GetMapping("/current")
     public String OrderForm(@AuthenticationPrincipal User user, @ModelAttribute Order order){   //해당 사용자의 이름과 주소가 채워진 상태로 주문폼으로 전송됨
@@ -78,5 +94,13 @@ public class OrderController {
     }
 
 
+    @GetMapping
+    public String orderForUser(@AuthenticationPrincipal User user, Model model){
+//        Pageable pageable = PageRequest.of(0,pageSize); //첫번째 페이지, pageSize개씩 라는 의미
+        Pageable pageable = PageRequest.of(0,props.getPageSize());
+        model.addAttribute("orders",orderRepo.findByUserOrderByPlacedAtDesc(user,pageable)); //최근 20개 주문내역만 보고싶을 경우
+
+        return "orderList" ;
+    }
 
 }
