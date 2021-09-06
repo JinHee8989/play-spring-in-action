@@ -34,3 +34,17 @@ logging:
 taco:
   orders:
     pageSize: 10
+
+
+
+--- #application.yml은 3개의 하이픈을 기준으로 구분된다
+# 프로파일 특정 속성을 지정할때
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://localhost/tacocloud
+    username: tacouser
+    password: tacopassword
+logging:
+  level:
+    tacos: WARN
