@@ -17,8 +17,6 @@ public class TacoCloudApplication {
     }
 
 
-
-
     @Bean
     @Profile({"prod","dev"})    //애플리케이션이 시작될때 prod프로파일이나 dev프로파일 중 하나가 활성화될 경우 실행
     public CommandLineRunner dataLoader(IngredientRepository repo) {
